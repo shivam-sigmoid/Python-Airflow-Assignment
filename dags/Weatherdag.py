@@ -18,5 +18,5 @@ with DAG("Weather_Dag", default_args=default_args, schedule_interval='* 18 * * *
     task2 = PostgresOperator(task_id="create_new_table", postgres_conn_id='postgres_conn', sql="create_new_table.sql")
     # Filling up the columns of the table while reading the data from the csv file
     task3 = PostgresOperator(task_id="insert_data_into_table", postgres_conn_id='postgres_conn',
-                          sql="copy weather FROM '/store_files_postgresql/weather_data.csv' DELIMITER ',' CSV HEADER;")
+                          sql="copy weather FROM '/store_files_postgresql/weather_data.csv' DELIMITER ',' CSV HEADER ;")
     task1 >> task2 >> task3
