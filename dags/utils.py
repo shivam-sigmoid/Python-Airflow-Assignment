@@ -25,7 +25,7 @@ def get_weather_api_method():
                             'Temperature': info['main']['temp'], "Feels_Like_Temperature": info['main']['feels_like'],
                             "Min_Temperature": info['main']['temp_min'], "Max_Temperature": info['main']['temp_max'],
                             "Humidity": info['main']['humidity'], "Clouds": info['clouds']['all']}, ignore_index=True)
-        except:
+        except requests.exceptions.Timeout:
             print("API Request limit exceeds")
 
     path = "/usr/local/airflow/store_files_airflow"

@@ -10,7 +10,7 @@ default_args = {
     'retries': 1,
     'retry_delay': timedelta(seconds=5)
 }
-with DAG("Weather_Dag", default_args=default_args, schedule_interval='* 18 * * *',
+with DAG("Weather_Dag", default_args=default_args, schedule_interval='0 18 * * *',
          template_searchpath=['/usr/local/airflow/sql_files'], catchup=False) as dag:
     # Filling up the CSV with the 10 states weather data
     task1 = PythonOperator(task_id="check_file_exist_or_create_new_file", python_callable=get_weather_api_method)
@@ -19,4 +19,8 @@ with DAG("Weather_Dag", default_args=default_args, schedule_interval='* 18 * * *
     # Filling up the columns of the table while reading the data from the csv file
     task3 = PostgresOperator(task_id="insert_data_into_table", postgres_conn_id='postgres_conn',
                           sql="copy weather FROM '/store_files_postgresql/weather_data.csv' DELIMITER ',' CSV HEADER ;")
+
     task1 >> task2 >> task3
+
+# Macros, Catchup
+# Max active runs
